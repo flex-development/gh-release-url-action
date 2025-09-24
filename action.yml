@@ -29,7 +29,17 @@ runs:
   steps:
     - id: url
       shell: bash
-      run: set -e
+      run: |
+        set -e
+
+        # capture full repository name.
+        repository=${{ inputs.owner }}/${{ inputs.repo }}
+
+        # capture release url.
+        url=${{ inputs.server }}/$repository/releases/tag/${{ inputs.tag }}
+
+        # set output.
+        echo "result=$(echo "$url" | xargs)" >>$GITHUB_OUTPUT
 branding:
   color: blue
   icon: link

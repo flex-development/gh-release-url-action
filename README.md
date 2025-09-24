@@ -45,15 +45,15 @@ The repository owner (optional).
 
 The name of the repository (optional).
 
-### `tag`
-
-The release tag to create a URL for.
-
 ### `server`
 
 > **default**: `${{ github.server_url }}`
 
 The URL of the GitHub server (optional).
+
+### `tag`
+
+The release tag to create a URL for.
 
 ## Outputs
 

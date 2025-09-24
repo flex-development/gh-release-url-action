@@ -48,11 +48,17 @@ jobs:
         name: Test 2
         uses: ./
         with:
+          repo: jq-action
+          tag: 1.0.0
+      - id: test3
+        name: Test 3
+        uses: ./
+        with:
           owner: unicornware
           repo: pizza-delivery
           tag: pizza-delivery@1.0.0
-      - id: test3
-        name: Test 3
+      - id: test4
+        name: Test 4
         uses: ./
         with:
           repo: grease
@@ -61,6 +67,8 @@ jobs:
       - id: outputs
         name: Outputs
         run: |
+          echo outputs
           echo steps.test1.outputs.url: ${{ steps.test1.outputs.url }}
           echo steps.test2.outputs.url: ${{ steps.test2.outputs.url }}
           echo steps.test3.outputs.url: ${{ steps.test3.outputs.url }}
+          echo steps.test4.outputs.url: ${{ steps.test4.outputs.url }}
