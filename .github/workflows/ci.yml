@@ -91,6 +91,8 @@ jobs:
         uses: flex-development/manver-action@1.0.1
   gitguardian:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - id: checkout
         name: Checkout
