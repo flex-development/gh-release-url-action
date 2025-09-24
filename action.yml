@@ -1,0 +1,35 @@
+# ACTION METADATA
+# https://docs.github.com/actions/creating-actions/metadata-syntax-for-github-actions
+
+---
+name: gh-release-url
+author: '@flex-development'
+description: Create a URL for a GitHub release
+inputs:
+  owner:
+    default: ${{ github.repository_owner }}
+    description: github repository owner
+    required: false
+  repo:
+    default: ${{ github.event.repository.name }}
+    description: github repository name
+    required: false
+  server:
+    default: ${{ github.server_url }}
+    description: github server url
+    required: false
+  tag:
+    description: the release tag to create a url for
+outputs:
+  url:
+    description: the release url
+    value: ${{ steps.url.outputs.result }}
+runs:
+  using: composite
+  steps:
+    - id: url
+      shell: bash
+      run: set -e
+branding:
+  color: blue
+  icon: link

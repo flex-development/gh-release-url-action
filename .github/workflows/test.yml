@@ -1,0 +1,66 @@
+# Action Test
+#
+# References:
+#
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#pull_request
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#push
+# - https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#push
+# - https://docs.github.com/webhooks-and-events/webhooks/webhook-events-and-payloads#workflow_dispatch
+# - https://github.com/actions/checkout
+# - https://github.com/hmarr/debug-action
+
+---
+name: test
+on:
+  pull_request:
+  push:
+    paths:
+      - .github/workflows/test.yml
+      - action.yml
+  workflow_dispatch:
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: debug
+        name: Print environment variables and event payload
+        uses: hmarr/debug-action@v3.0.0
+      - id: checkout
+        name: Checkout ${{ github.head_ref || github.ref_name }}
+        uses: actions/checkout@v5.0.0
+        with:
+          persist-credentials: false
+          ref: ${{ github.head_ref || github.ref }}
+      - id: version
+        name: Extract version metadata
+        uses: flex-development/manver-action@1.0.1
+      - id: test1
+        name: Test 1
+        uses: ./
+        with:
+          tag: ${{ steps.version.outputs.manifest }}
+      - id: test2
+        name: Test 2
+        uses: ./
+        with:
+          owner: unicornware
+          repo: pizza-delivery
+          tag: pizza-delivery@1.0.0
+      - id: test3
+        name: Test 3
+        uses: ./
+        with:
+          repo: grease
+          server: https://github.fldve.com
+          tag: 3.0.0-alpha.9
+      - id: outputs
+        name: Outputs
+        run: |
+          echo steps.test1.outputs.url: ${{ steps.test1.outputs.url }}
+          echo steps.test2.outputs.url: ${{ steps.test2.outputs.url }}
+          echo steps.test3.outputs.url: ${{ steps.test3.outputs.url }}
