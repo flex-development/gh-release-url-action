@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/flex-development/gh-release-url-action/compare/1.0.0...2.0.0) (2025-09-24)
+
+### ⚠ BREAKING CHANGES
+
+- `inputs.tag` -> `inputs.version`
+
+### :mechanical_arm: Refactors
+
+- [[`1636639`](https://github.com/flex-development/gh-release-url-action/commit/163663916389372539e474a105186940b40f3f13)] add action step names
+- [[`7abf4d6`](https://github.com/flex-development/gh-release-url-action/commit/7abf4d6f8703fb13294fbe41515b7b6b395ecc41)] `inputs.tag` -> `inputs.version`
+
 ## 1.0.0 (2025-09-24)
 
 ### :robot: Continuous Integration
@@ -21,5 +32,6 @@
 ### :house_with_garden: Housekeeping
 
 - [[`91124da`](https://github.com/flex-development/gh-release-url-action/commit/91124da6aef41e8fc2048c37bfdfd517b4f3caec)] initial commit
+
 
 
