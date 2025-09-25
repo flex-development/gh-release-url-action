@@ -36,6 +36,7 @@ runs:
   using: composite
   steps:
     - id: tag
+      name: Build release tag
       shell: bash
       run: |
         set -e
@@ -46,6 +47,7 @@ runs:
         # set output.
         echo "result=$tag" >>$GITHUB_OUTPUT
     - id: url
+      name: Build release url
       shell: bash
       run: |
         set -e
