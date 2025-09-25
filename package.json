@@ -1,7 +1,7 @@
 {
   "name": "@flex-development/gh-release-url-action",
   "description": "Create a URL for a GitHub release",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "keywords": [
     "actions",
     "deploy",
