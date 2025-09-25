@@ -52,9 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       prerelease: ${{ steps.dist-tag.outputs.prerelease }}
-      tag: ${{ steps.tag.outputs.result }}
+      tag: ${{ steps.url.outputs.tag }}
       version: ${{ steps.version.outputs.manifest }}
-      url: ${{ steps.url.outputs.result }}
+      url: ${{ steps.url.outputs.url }}
     steps:
       - id: debug
         name: Print environment variables and event payload
@@ -73,14 +73,12 @@ jobs:
         with:
           data: grease.config.json
           filter: .tagprefix
-      - id: tag
-        name: Get release tag
-        run: |
-          echo "result=${{ format('{0}{1}', steps.tag-prefix.outputs.result, steps.version.outputs.manifest) }}" >>$GITHUB_OUTPUT
       - id: url
-        name: Get release url
-        run: |
-          echo "result=$(echo "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.tag.outputs.result }}" | xargs)" >>$GITHUB_OUTPUT
+        name: Get release tag and url
+        uses: ./
+        with:
+          tag: ${{ steps.version.outputs.manifest }}
+          tag-prefix: ${{ steps.tag-prefix.outputs.result }}
       - id: dist-tag
         name: Get dist tag
         uses: flex-development/dist-tag-action@1.1.2
@@ -139,8 +137,5 @@ jobs:
         run: 'grease tag -ps -m "release: {tag}" ${{ needs.preflight.outputs.version }}'
       - id: publish
         name: Publish release
-        env:
-          PRERELEASE: ${{ needs.preflight.outputs.prerelease }}
-          TAG: ${{ needs.preflight.outputs.tag }}
         run: |
-          gh release create $TAG *.tgz --title=$TAG --notes-file=$NOTES_FILE --verify-tag --prerelease=$PRERELEASE --discussion-category=releases
+          gh release create ${{ needs.preflight.outputs.tag }} *.tgz --title=${{ needs.preflight.outputs.tag }} --notes-file=$NOTES_FILE --verify-tag --prerelease=${{ needs.preflight.outputs.prerelease }} --discussion-category=releases
