@@ -70,7 +70,7 @@ jobs:
           filter: .tagprefix
       - id: environment
         name: Get release url
-        uses: flex-development/jq-action@2.0.0
+        uses: flex-development/gh-release-url-action@2.0.0
         with:
           tag-prefix: ${{ steps.tag-prefix.outputs.result }}
           version: ${{ steps.version.outputs.manifest }}
