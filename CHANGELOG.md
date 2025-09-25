@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/flex-development/gh-release-url-action/compare/2.0.0...2.0.1) (2025-09-24)
+
+### :pencil: Documentation
+
+- [[`5a17edb`](https://github.com/flex-development/gh-release-url-action/commit/5a17edbe3c384b08b09a9890a37e037d0682d4c1)] fix usage example
+
 ## [2.0.0](https://github.com/flex-development/gh-release-url-action/compare/1.0.0...2.0.0) (2025-09-24)
 
 ### ⚠ BREAKING CHANGES
@@ -32,6 +38,7 @@
 ### :house_with_garden: Housekeeping
 
 - [[`91124da`](https://github.com/flex-development/gh-release-url-action/commit/91124da6aef41e8fc2048c37bfdfd517b4f3caec)] initial commit
+
 
 
 
