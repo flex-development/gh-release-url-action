@@ -151,7 +151,7 @@ repository:
   has_issues: true
   has_projects: true
   has_wiki: false
-  homepage: https://github.com/flex-development/gh-release-url-action
+  homepage: https://github.com/marketplace/actions/gh-release-url
   is_template: false
   private: false
   squash_merge_commit_message: BLANK

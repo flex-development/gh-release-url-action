@@ -26,7 +26,7 @@ inputs:
     required: false
 outputs:
   tag:
-    description: the release tag (including `inputs.tag-prefix` if specified)
+    description: the release tag the url was created with
     value: ${{ steps.tag.outputs.result }}
   url:
     description: the release url

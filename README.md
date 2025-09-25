@@ -27,11 +27,108 @@ Create a URL for a GitHub release
 
 ## What is this?
 
-This is a simple action for creating GitHub release URLs.
+This is a simple, but useful, action for creating GitHub release URLs.
 
 ## Use
 
-**TODO**: use
+```yaml
+---
+name: release
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+env:
+  REF: ${{ github.event.pull_request.merge_commit_sha }}
+  REF_NAME: ${{ format('{0}@{1}', github.base_ref, github.event.pull_request.merge_commit_sha) }}
+jobs:
+  preflight:
+    if: github.event.pull_request.merged && startsWith(github.head_ref, 'release/')
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.environment.outputs.tag }}
+      url: ${{ steps.environment.outputs.url }}
+      version: ${{ steps.version.outputs.manifest }}
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v5.0.0
+        with:
+          ref: ${{ env.REF }}
+      - id: version
+        name: Get release version
+        uses: flex-development/manver-action@1.0.1
+      - id: tag-prefix
+        name: Get release tag prefix
+        uses: flex-development/jq-action@1.0.0
+        with:
+          data: grease.config.json
+          filter: .tagprefix
+      - id: environment
+        name: Get release url
+        uses: ./
+        with:
+          tag: ${{ steps.version.outputs.manifest }}
+          tag-prefix: ${{ steps.tag-prefix.outputs.result }}
+  publish:
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: ${{ needs.preflight.outputs.url }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+      NOTES_FILE: RELEASE_NOTES.md
+    steps:
+      - id: checkout
+        name: Checkout ${{ env.REF_NAME }}
+        uses: actions/checkout@v5.0.0
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          ref: ${{ env.REF }}
+          token: ${{ env.GITHUB_TOKEN }}
+      - id: gpg-import
+        name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6.3.0
+        with:
+          git_config_global: true
+          git_push_gpgsign: false
+          git_tag_gpgsign: true
+          git_user_signingkey: true
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          trust_level: 5
+      - id: node
+        name: Setup Node.js
+        uses: actions/setup-node@v5.0.0
+        with:
+          cache: yarn
+          cache-dependency-path: yarn.lock
+          node-version-file: .nvmrc
+      - id: yarn
+        name: Install dependencies
+        run: yarn --no-immutable && echo "$GITHUB_WORKSPACE/node_modules/.bin" >>$GITHUB_PATH
+      - id: pack
+        name: Pack project
+        run: yarn pack -o %s-%v.tgz
+      - id: release-notes
+        name: Generate release notes
+        env:
+          TZ: ${{ vars.TZ }}
+        run: grease changelog -wo $NOTES_FILE && echo "$(cat $NOTES_FILE)" >>$GITHUB_STEP_SUMMARY
+      - id: tag
+        name: Create annotated tag
+        run: 'grease tag -ps -m "release: {tag}" ${{ needs.preflight.outputs.version }}'
+      - id: publish
+        name: Publish release
+        run: |
+          gh release create ${{ needs.preflight.outputs.tag }} *.tgz --title=${{ needs.preflight.outputs.tag }} --notes-file=$NOTES_FILE --verify-tag
+```
 
 ## Inputs
 
@@ -65,7 +162,7 @@ The prefix to append to the [release version](#tag) (optional).
 
 ### `tag`
 
-The release tag (including [`inputs.tag-prefix`](#tag-prefix) if specified).
+The release tag the URL was created with.
 
 ### `url`
 

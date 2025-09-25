@@ -52,9 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       prerelease: ${{ steps.dist-tag.outputs.prerelease }}
-      tag: ${{ steps.url.outputs.tag }}
+      tag: ${{ steps.environment.outputs.tag }}
       version: ${{ steps.version.outputs.manifest }}
-      url: ${{ steps.url.outputs.url }}
+      url: ${{ steps.environment.outputs.url }}
     steps:
       - id: debug
         name: Print environment variables and event payload
@@ -73,8 +73,8 @@ jobs:
         with:
           data: grease.config.json
           filter: .tagprefix
-      - id: url
-        name: Get release tag and url
+      - id: environment
+        name: Get release url
         uses: ./
         with:
           tag: ${{ steps.version.outputs.manifest }}
