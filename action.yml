@@ -19,7 +19,11 @@ inputs:
     description: github server url
     required: false
   tag:
-    description: the release tag to create a url for
+    description: the release tag or version to create a url for
+    required: true
+  tag-prefix:
+    description: the prefix to append to the release version
+    required: false
 outputs:
   url:
     description: the release url
@@ -33,10 +37,13 @@ runs:
         set -e
 
         # capture full repository name.
-        repository=${{ inputs.owner }}/${{ inputs.repo }}
+        repository=$(echo "${{ inputs.owner }}/${{ inputs.repo }}" | xargs)
+
+        # capture release tag.
+        tag=$(echo "${{ inputs.tag-prefix }}${{ inputs.tag }}" | xargs)
 
         # capture release url.
-        url=${{ inputs.server }}/$repository/releases/tag/${{ inputs.tag }}
+        url=${{ inputs.server }}/$repository/releases/tag/$tag
 
         # set output.
         echo "result=$(echo "$url" | xargs)" >>$GITHUB_OUTPUT
