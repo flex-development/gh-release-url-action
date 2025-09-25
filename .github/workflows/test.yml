@@ -77,7 +77,11 @@ jobs:
         name: Outputs
         run: |
           echo outputs
+          echo steps.test1.outputs.tag: ${{ steps.test1.outputs.tag }}
           echo steps.test1.outputs.url: ${{ steps.test1.outputs.url }}
+          echo steps.test2.outputs.tag: ${{ steps.test2.outputs.tag }}
           echo steps.test2.outputs.url: ${{ steps.test2.outputs.url }}
+          echo steps.test3.outputs.tag: ${{ steps.test3.outputs.tag }}
           echo steps.test3.outputs.url: ${{ steps.test3.outputs.url }}
+          echo steps.test4.outputs.tag: ${{ steps.test4.outputs.tag }}
           echo steps.test4.outputs.url: ${{ steps.test4.outputs.url }}

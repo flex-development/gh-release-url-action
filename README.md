@@ -20,6 +20,7 @@ Create a URL for a GitHub release
   - [`tag`](#tag)
   - [`tag-prefix`](#tag-prefix)
 - [Outputs](#outputs)
+  - [`tag`](#tag-1)
   - [`url`](#url)
 - [Related](#related)
 - [Contribute](#contribute)
@@ -61,6 +62,10 @@ The release tag or version to create a URL for.
 The prefix to append to the [release version](#tag) (optional).
 
 ## Outputs
+
+### `tag`
+
+The release tag (including [`inputs.tag-prefix`](#tag-prefix) if specified).
 
 ### `url`
 

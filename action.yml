@@ -25,12 +25,25 @@ inputs:
     description: the prefix to append to the release version
     required: false
 outputs:
+  tag:
+    description: the release tag (including `inputs.tag-prefix` if specified)
+    value: ${{ steps.tag.outputs.result }}
   url:
     description: the release url
     value: ${{ steps.url.outputs.result }}
 runs:
   using: composite
   steps:
+    - id: tag
+      shell: bash
+      run: |
+        set -e
+
+        # capture release tag.
+        tag=$(echo "${{ inputs.tag-prefix }}${{ inputs.tag }}" | xargs)
+
+        # set output.
+        echo "result=$tag" >>$GITHUB_OUTPUT
     - id: url
       shell: bash
       run: |
@@ -39,11 +52,8 @@ runs:
         # capture full repository name.
         repository=$(echo "${{ inputs.owner }}/${{ inputs.repo }}" | xargs)
 
-        # capture release tag.
-        tag=$(echo "${{ inputs.tag-prefix }}${{ inputs.tag }}" | xargs)
-
         # capture release url.
-        url=${{ inputs.server }}/$repository/releases/tag/$tag
+        url=${{ inputs.server }}/$repository/releases/tag/${{ steps.tag.outputs.result }}
 
         # set output.
         echo "result=$(echo "$url" | xargs)" >>$GITHUB_OUTPUT
