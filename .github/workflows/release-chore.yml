@@ -40,7 +40,7 @@ jobs:
     outputs:
       branch: ${{ steps.branch.outputs.result }}
       message: ${{ steps.message.outputs.result }}
-      tag: ${{ steps.tag.outputs.result }}
+      tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.version.outputs.match }}
     steps:
       - id: debug
@@ -96,11 +96,13 @@ jobs:
           filter: .tagprefix
       - id: tag
         name: Get release tag
-        run: |
-          echo "result=${{ steps.tag-prefix.outputs.result }}${{ steps.version.outputs.match }}" >>$GITHUB_OUTPUT
+        uses: ./
+        with:
+          tag: ${{ steps.version.outputs.match }}
+          tag-prefix: ${{ steps.tag-prefix.outputs.result }}
       - id: message
         name: Get release message
-        run: 'echo "result=release: ${{ steps.tag.outputs.result }}" >>$GITHUB_OUTPUT'
+        run: 'echo "result=release: ${{ steps.tag.outputs.tag }}" >>$GITHUB_OUTPUT'
       - id: branch
         name: Get release branch name
         run: echo "result=release/${{ steps.version.outputs.match }}" >>$GITHUB_OUTPUT
