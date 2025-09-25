@@ -18,12 +18,13 @@ inputs:
     default: ${{ github.server_url }}
     description: github server url
     required: false
-  tag:
-    description: the release tag or version to create a url for
-    required: true
   tag-prefix:
-    description: the prefix to append to the release version
+    description: |
+      the prefix to append to the release version when building the release tag component of the url
     required: false
+  version:
+    description: the release version or tag to create a url for
+    required: true
 outputs:
   tag:
     description: the release tag the url was created with
@@ -40,7 +41,7 @@ runs:
         set -e
 
         # capture release tag.
-        tag=$(echo "${{ inputs.tag-prefix }}${{ inputs.tag }}" | xargs)
+        tag=$(echo "${{ inputs.tag-prefix }}${{ inputs.version }}" | xargs)
 
         # set output.
         echo "result=$tag" >>$GITHUB_OUTPUT

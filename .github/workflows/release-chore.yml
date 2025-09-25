@@ -98,8 +98,8 @@ jobs:
         name: Get release tag
         uses: ./
         with:
-          tag: ${{ steps.version.outputs.match }}
           tag-prefix: ${{ steps.tag-prefix.outputs.result }}
+          version: ${{ steps.version.outputs.match }}
       - id: message
         name: Get release message
         run: 'echo "result=release: ${{ steps.tag.outputs.tag }}" >>$GITHUB_OUTPUT'

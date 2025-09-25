@@ -49,30 +49,30 @@ jobs:
         name: Test 1
         uses: ./
         with:
-          tag: ${{ steps.version.outputs.manifest }}
           tag-prefix: ${{ steps.tag-prefix.outputs.result }}
+          version: ${{ steps.version.outputs.manifest }}
       - id: test2
         name: Test 2
         uses: ./
         with:
           repo: jq-action
-          tag: 1.0.0
+          version: 1.0.0
       - id: test3
         name: Test 3
         uses: ./
         with:
           owner: unicornware
           repo: pizza-delivery
-          tag: 1.0.0
           tag-prefix: pizza-delivery@
+          version: 1.0.0
       - id: test4
         name: Test 4
         uses: ./
         with:
           repo: grease
           server: https://github.fldve.com
-          tag: 3.0.0-alpha.9
           tag-prefix: grease@
+          version: 3.0.0-alpha.9
       - id: outputs
         name: Outputs
         run: |

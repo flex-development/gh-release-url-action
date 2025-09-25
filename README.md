@@ -17,10 +17,10 @@ Create a URL for a GitHub release
   - [`owner`](#owner)
   - [`repo`](#repo)
   - [`server`](#server)
-  - [`tag`](#tag)
   - [`tag-prefix`](#tag-prefix)
+  - [`version`](#version)
 - [Outputs](#outputs)
-  - [`tag`](#tag-1)
+  - [`tag`](#tag)
   - [`url`](#url)
 - [Related](#related)
 - [Contribute](#contribute)
@@ -70,10 +70,10 @@ jobs:
           filter: .tagprefix
       - id: environment
         name: Get release url
-        uses: ./
+        uses: flex-development/jq-action@2.0.0
         with:
-          tag: ${{ steps.version.outputs.manifest }}
           tag-prefix: ${{ steps.tag-prefix.outputs.result }}
+          version: ${{ steps.version.outputs.manifest }}
   publish:
     needs: preflight
     runs-on: ubuntu-latest
@@ -150,13 +150,13 @@ The name of the repository (optional).
 
 The URL of the GitHub server (optional).
 
-### `tag`
-
-The release tag or version to create a URL for.
-
 ### `tag-prefix`
 
-The prefix to append to the [release version](#tag) (optional).
+The prefix to append to the [release version](#version) when building the release tag component of the URL (optional).
+
+### `version`
+
+The release version or tag to create a URL for.
 
 ## Outputs
 
