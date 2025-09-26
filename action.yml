@@ -6,6 +6,9 @@ name: gh-release-url
 author: '@flex-development'
 description: Create a URL for a GitHub release
 inputs:
+  artifact:
+    description: the name of the release artifact to create a download url for
+    required: false
   owner:
     default: ${{ github.repository_owner }}
     description: github repository owner
@@ -26,12 +29,15 @@ inputs:
     description: the release version or tag to create a url for
     required: true
 outputs:
+  artifact:
+    description: the release artifact download url
+    value: ${{ steps.url.outputs.artifact || '' }}
   tag:
-    description: the release tag the url was created with
+    description: the release tag the urls were created with
     value: ${{ steps.tag.outputs.result }}
   url:
     description: the release url
-    value: ${{ steps.url.outputs.result }}
+    value: ${{ steps.url.outputs.release }}
 runs:
   using: composite
   steps:
@@ -47,19 +53,23 @@ runs:
         # set output.
         echo "result=$tag" >>$GITHUB_OUTPUT
     - id: url
-      name: Build release url
+      name: Build release url and release artifact download url
       shell: bash
       run: |
         set -e
 
-        # capture full repository name.
+        # capture full repository name, common base url, and release tag.
         repository=$(echo "${{ inputs.owner }}/${{ inputs.repo }}" | xargs)
+        releases=$(echo "${{ inputs.server }}" | xargs)/$repository/releases
+        tag=${{ steps.tag.outputs.result }}
 
-        # capture release url.
-        url=${{ inputs.server }}/$repository/releases/tag/${{ steps.tag.outputs.result }}
+        # set release url output.
+        echo "release=$(echo "$releases/tag/$tag" | xargs)" >>$GITHUB_OUTPUT
 
-        # set output.
-        echo "result=$(echo "$url" | xargs)" >>$GITHUB_OUTPUT
+        # set release artifact download url.
+        if [[ -n '${{ inputs.artifact }}' ]]; then
+          echo "artifact=$(echo "$releases/download/$tag/${{ inputs.artifact }}" | xargs)" >>$GITHUB_OUTPUT
+        fi
 branding:
   color: blue
   icon: link

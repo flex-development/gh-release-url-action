@@ -14,12 +14,14 @@ Create a URL for a GitHub release
 - [What is this?](#what-is-this)
 - [Use](#use)
 - [Inputs](#inputs)
+  - [`artifact`](#artifact)
   - [`owner`](#owner)
   - [`repo`](#repo)
   - [`server`](#server)
   - [`tag-prefix`](#tag-prefix)
   - [`version`](#version)
 - [Outputs](#outputs)
+  - [`artifact`](#artifact-1)
   - [`tag`](#tag)
   - [`url`](#url)
 - [Related](#related)
@@ -132,6 +134,10 @@ jobs:
 
 ## Inputs
 
+### `artifact`
+
+The name of the release artifact to create a download URL for (optional).
+
 ### `owner`
 
 > **default**: `${{ github.repository_owner }}`
@@ -160,9 +166,13 @@ The release version or tag to create a URL for.
 
 ## Outputs
 
+### `artifact`
+
+The [release artifact](#artifact) download URL.
+
 ### `tag`
 
-The release tag the URL was created with.
+The release tag the URLs were created with.
 
 ### `url`
 

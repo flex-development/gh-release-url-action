@@ -73,15 +73,39 @@ jobs:
           server: https://github.fldve.com
           tag-prefix: grease@
           version: 3.0.0-alpha.9
+      - id: test5
+        name: Test 5
+        uses: ./
+        with:
+          artifact: ${{ format('@{0}-{1}-{2}.tgz', github.repository_owner, 'log', '5.0.0') }}
+          repo: log
+          version: 5.0.0
       - id: outputs
         name: Outputs
         run: |
           echo outputs
+
+          echo test1
+          echo steps.test1.outputs.artifact: ${{ steps.test1.outputs.artifact }}
           echo steps.test1.outputs.tag: ${{ steps.test1.outputs.tag }}
           echo steps.test1.outputs.url: ${{ steps.test1.outputs.url }}
+
+          echo test2
+          echo steps.test2.outputs.artifact: ${{ steps.test2.outputs.artifact }}
           echo steps.test2.outputs.tag: ${{ steps.test2.outputs.tag }}
           echo steps.test2.outputs.url: ${{ steps.test2.outputs.url }}
+
+          echo test3
+          echo steps.test3.outputs.artifact: ${{ steps.test3.outputs.artifact }}
           echo steps.test3.outputs.tag: ${{ steps.test3.outputs.tag }}
           echo steps.test3.outputs.url: ${{ steps.test3.outputs.url }}
+
+          echo test4
+          echo steps.test4.outputs.artifact: ${{ steps.test4.outputs.artifact }}
           echo steps.test4.outputs.tag: ${{ steps.test4.outputs.tag }}
           echo steps.test4.outputs.url: ${{ steps.test4.outputs.url }}
+
+          echo test5
+          echo steps.test5.outputs.artifact: ${{ steps.test5.outputs.artifact }}
+          echo steps.test5.outputs.tag: ${{ steps.test5.outputs.tag }}
+          echo steps.test5.outputs.url: ${{ steps.test5.outputs.url }}
