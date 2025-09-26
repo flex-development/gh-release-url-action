@@ -1,3 +1,26 @@
+## [2.1.0](https://github.com/flex-development/gh-release-url-action/compare/2.0.1...2.1.0) (2025-09-25)
+
+### :package: Build
+
+- [[`87566e7`](https://github.com/flex-development/gh-release-url-action/commit/87566e73fcdb93183c8e5f4f730ed9aa7c027ced)] **deps-dev:** Bump the commitlint group with 2 updates ([#9](https://github.com/flex-development/gh-release-url-action/issues/9))
+
+### :robot: Continuous Integration
+
+- [[`fa95b8f`](https://github.com/flex-development/gh-release-url-action/commit/fa95b8f878c714a602e4d0bbe62612dc50626c1b)] **deps:** Bump flex-development/manver-action from 1.0.1 to 1.1.0 ([#8](https://github.com/flex-development/gh-release-url-action/issues/8))
+- [[`dc9fac0`](https://github.com/flex-development/gh-release-url-action/commit/dc9fac012b842020c8933515f749728e7b38db86)] **workflows:** [`ci`] add `jobs.artifacts`
+
+### :sparkles: Features
+
+- [[`e4e9959`](https://github.com/flex-development/gh-release-url-action/commit/e4e995980e69f194edd3945fa60ce24c3019297d)] generate release artifact download url
+
+### :house_with_garden: Housekeeping
+
+- [[`6d72d20`](https://github.com/flex-development/gh-release-url-action/commit/6d72d20ad4a8daed3cb916058b889d90db2b021e)] **github:** fix repository description
+
+### :mechanical_arm: Refactors
+
+- [[`d25b84a`](https://github.com/flex-development/gh-release-url-action/commit/d25b84ac935481309918958b6836b2ffa3e72d2e)] format `inputs.artifact`
+
 ## [2.0.1](https://github.com/flex-development/gh-release-url-action/compare/2.0.0...2.0.1) (2025-09-24)
 
 ### :pencil: Documentation
@@ -38,6 +61,7 @@
 ### :house_with_garden: Housekeeping
 
 - [[`91124da`](https://github.com/flex-development/gh-release-url-action/commit/91124da6aef41e8fc2048c37bfdfd517b4f3caec)] initial commit
+
 
 
 
