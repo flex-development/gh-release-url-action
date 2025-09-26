@@ -58,7 +58,8 @@ runs:
       run: |
         set -e
 
-        # capture full repository name, common base url, and release tag.
+        # capture artifact name, full repository name, common base url, and release tag.
+        artifact=$(echo "${{ inputs.artifact }}" | xargs)
         repository=$(echo "${{ inputs.owner }}/${{ inputs.repo }}" | xargs)
         releases=$(echo "${{ inputs.server }}" | xargs)/$repository/releases
         tag=${{ steps.tag.outputs.result }}
@@ -67,8 +68,8 @@ runs:
         echo "release=$(echo "$releases/tag/$tag" | xargs)" >>$GITHUB_OUTPUT
 
         # set release artifact download url.
-        if [[ -n '${{ inputs.artifact }}' ]]; then
-          echo "artifact=$(echo "$releases/download/$tag/${{ inputs.artifact }}" | xargs)" >>$GITHUB_OUTPUT
+        if [[ -n "$artifact" ]]; then
+          echo "artifact=$releases/download/$tag/$artifact" >>$GITHUB_OUTPUT
         fi
 branding:
   color: blue
