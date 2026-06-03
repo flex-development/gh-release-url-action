@@ -59,7 +59,7 @@
     "@flex-development/remark-preset": "1.0.0",
     "@tsconfig/strictest": "2.0.8",
     "@types/unist": "3.0.3",
-    "cspell": "10.0.0",
+    "cspell": "10.0.1",
     "devlop": "1.1.0",
     "dprint": "0.54.0",
     "editorconfig": "3.0.2",
